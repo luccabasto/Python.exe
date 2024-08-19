@@ -114,16 +114,15 @@ def get_aposta():
 
 ''' MAIN Program'''
 
-def main():
-    saldo = deposito()
+def game_ciclo(quantia):
     lines = get_number_of_lines()
 
     while True:
         aposta = get_aposta()
         total_aposta = aposta * lines
 
-        if total_aposta > saldo:
-            print(f"Você não possui saldo o suficiente para apostar, atualmente seu saldo contém: R${saldo}")
+        if total_aposta > quantia:
+            print(f"Você não possui saldo o suficiente para apostar, atualmente seu saldo contém: R${quantia}")
         else: 
             break
 
@@ -134,4 +133,18 @@ def main():
     vencedores, vencedores_lines = check_vencedor(slots, lines, aposta, symbol_value)
     print(f"Você ganhou R${vencedores}.")
     print(f"Você ganhou nas linhas: ", *vencedores_lines)
+
+    return vencedores - total_aposta
+
+def main():
+    quantia = deposito()
+    while True: 
+        print(f"Saldo atual é: R${quantia}")
+        resposta = input("Clique aqui para continuar (s para sair).")
+        if resposta == "s":
+            break
+        quantia += game_ciclo(quantia)
+
+    print(f"Você esta saindo com R${quantia}")
+    
 main()
